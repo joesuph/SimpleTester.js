@@ -5,6 +5,14 @@ var ctx = canvas.getContext('2d');
 var globals = {};
 
 function loadFile(){}
+
+
+t.time('t1');
+for (var i=0;i<100;i++)
+{
+    Math.pow(i,2)
+}
+console.log(t.time('t1') + 'ms')
 /*function loadFile() {
     img = $('img')[0];
     const file = $('input')[0].files[0];

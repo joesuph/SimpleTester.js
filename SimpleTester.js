@@ -6,9 +6,11 @@ class SimpleTester {
         failed: 0,
         tested: 0,
         failedTests: {},
-        passedTests: {}
+        passedTests: {},
+        timings: {}
       };
       this.log = this.defaultLog;
+      this.timers = {};
     }
     addTest(testName, func) {
       this.tests[testName] = func;
@@ -54,6 +56,24 @@ class SimpleTester {
       });
       view.appendChild(butt);
       document.body.appendChild(view);
+    }
+    
+    time(timerName)
+    {
+        if (!this.timers[timerName])
+        {
+            this.timers[timerName] = performance.now();
+            return null;
+        }
+        var t0 = this.timers[timerName];
+
+        delete this.timers[timerName];
+
+        var time = performance.now()-t0; 
+
+        this.log.timings[timerName] = time;
+
+        return time;      
     }
   }
   
