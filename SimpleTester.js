@@ -38,26 +38,42 @@ class SimpleTester {
     clearLog() {
       this.log = this.defaultLog;
     }
+
     viewLog() {
-      var view = document.createElement("div");
-  
+      var view = $(document.createElement("div"));
+    
+
+      view.css({
+          "height":"100vh",
+          "width":"100vw",
+          "position":"absolute",
+          "left":"0px",
+          "top":"0px",
+          "background-color":"#777799"
+      })
+      /*
       view.style.height = "100vh";
       view.style.width = "100vw";
       view.style.position = "absolute";
       view.style.left = "0px";
       view.style.top = "0px";
       view.style.backgroundColor = "#777799";
+      */
   
-      view.innerHTML = JSON.stringify(this.log);
-      var butt = document.createElement("button");
-      butt.innerText = "Close Window";
-      butt.addEventListener("click", e => {
-        document.body.removeChild(view);
+      view.html(JSON.stringify(this.log));
+      
+     $(document.createElement('h1')).text("Log")
+
+      var butt = $(document.createElement("button"));
+      butt.text("Close Window");
+      butt.click(e => {
+        view.remove();
       });
-      view.appendChild(butt);
-      document.body.appendChild(view);
+      view.append(butt);
+      $(document.body).append(view);
     }
     
+
     time(timerName)
     {
         if (!this.timers[timerName])
