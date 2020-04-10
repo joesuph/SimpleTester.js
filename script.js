@@ -86,3 +86,4 @@ function rotatePoints(points,angle)
 
 }
 
+t.viewLog()

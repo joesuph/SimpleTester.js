@@ -51,17 +51,14 @@ class SimpleTester {
           "top":"0px",
           "background-color":"#777799"
       })
-      /*
-      view.style.height = "100vh";
-      view.style.width = "100vw";
-      view.style.position = "absolute";
-      view.style.left = "0px";
-      view.style.top = "0px";
-      view.style.backgroundColor = "#777799";
-      */
   
       view.html(JSON.stringify(this.log));
-      
+      view.html(`
+        <h1 style='color:#222222;width:100%;background-color:#9999bb;padding:1%;font-size:2.5em;font-family:Arial, Helvetica, sans-serif'>Test Report</h1>
+        <h2 style='text-align: center;width: 12em;background-color: black;border-radius: 10px;border:1px solid black;color:#22ff22;font-size: 2em;margin-left: 5%;font-family: "Arial Black", Gadget, sans-serif;'>Passed: ${this.log['passed']} <h2>
+        <h2 style='text-align: center;width: 12em;background-color: black;border-radius: 10px;border:1px solid black;color:#cc0000;font-size: 2em;margin-left: 5%;font-family: "Arial Black", Gadget, sans-serif;'>Failed: ${this.log['failed']} <h2>
+        <h2 style='color:#ffffff;text-align: center;width: 12em;background-color: black;border-radius: 10px;border:1px solid black;font-size: 2em;margin-left: 5%;font-family: "Arial Black", Gadget, sans-serif;'>Tested: ${this.log['tested']} <h2>
+        `);
      $(document.createElement('h1')).text("Log")
 
       var butt = $(document.createElement("button"));
