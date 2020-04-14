@@ -6,13 +6,12 @@ var globals = {};
 
 function loadFile(){}
 
+t.addTest('isEven',(p)=>{return p.x%2==0});
+t.addTest('isOdd',(p)=>{return p.x%2!=0});
+t.run('isEven',{x:4})
+t.run('isEven',{x:6})
+t.run('isOdd',{x:3})
 
-t.time('t1');
-for (var i=0;i<100;i++)
-{
-    Math.pow(i,2)
-}
-console.log(t.time('t1') + 'ms')
 /*function loadFile() {
     img = $('img')[0];
     const file = $('input')[0].files[0];
