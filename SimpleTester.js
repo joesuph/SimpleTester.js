@@ -35,7 +35,7 @@ class SimpleTester {
           this.log.failedTests[testName] = [params];
         else this.log.failedTests[testName].push(params);
       }
-      if(!this.log.tested[testName])
+      if(!this.log.testedTests[testName])
         this.log.testedTests[testName] = [params];
       else
         this.log.testedTests[testName].push(params);
@@ -63,19 +63,19 @@ class SimpleTester {
         <h2 id='simpleTesterPassedHeader' class='simpleTesterh2' style='color:#22ff22;' >Passed: ${this.log['passed']} </h2>
         <div id='simpleTesterDrawer1' class ='simpleTesterDrawer'>
         `+  Object.keys(t.log.passedTests).map((x)=>{
-          return "<span title='See Parameters' class='test'>["+ t.log.passedTests[x].length +"]" + x + "</span><br>"
+          return "<span title='See Parameters' class='simpleTesterTest'>["+ t.log.passedTests[x].length +"]" + x + "</span><br>"
           }).join("\n")      +`
         </div>
         <h2 id='simpleTesterFailedHeader' class='simpleTesterh2' style='color:#cc0000;' >Failed: ${this.log['failed']} </h2>
         <div id='simpleTesterDrawer2' class ='simpleTesterDrawer'>
         `+  Object.keys(t.log.failedTests).map((x)=>{
-          return "<span title='See Parameters' class='test'>["+ t.log.passedTests[x].length +"]" + x + "</span><br>"
+          return "<span title='See Parameters' class='simpleTesterTest'>["+ t.log.failedTests[x].length +"]" + x + "</span><br>"
           }).join("\n")      +`
         </div>
         <h2 id='simpleTesterTestedHeader' class='simpleTesterh2' style='color:white' >Tested: ${this.log['tested']} </h2>
         <div id='simpleTesterDrawer3' class ='simpleTesterDrawer'>
         `+  Object.keys(t.log.testedTests).map((x)=>{
-          return "<span title='See Parameters' class='test'>["+ t.log.testedTests[x].length +"]" + x + "</span><br>"
+          return "<span title='See Parameters' class='simpleTesterTest'>["+ t.log.testedTests[x].length +"]" + x + "</span><br>"
           }).join("\n")      +`
         </div>
         <hr style='width:90%'/>
@@ -84,6 +84,7 @@ class SimpleTester {
 
 
       var butt = $(document.createElement("button"));
+      butt.css("margin-bottom","1.5em")
       butt.text("Close Window");
       butt.click(e => {
         view.remove();
@@ -91,8 +92,8 @@ class SimpleTester {
       view.append(butt);
       $(document.body).append(view);
 
-      $('.test').on('mouseenter',(e)=>$(e.target).css('font-weight','bold'))
-      $('.test').on('mouseleave',(e)=>$(e.target).css('font-weight','normal'))
+      $('.simpleTesterTest').on('mouseenter',(e)=>$(e.target).css('font-weight','bold'))
+      $('.simpleTesterTest').on('mouseleave',(e)=>$(e.target).css('font-weight','normal'))
 
       $('.simpleTesterh2').css({
         textAlign: 'center',
