@@ -50,14 +50,14 @@ class SimpleTester {
      view.attr('id', 'logWindow');
       view.css({
           "minHeight":"100vh",
-          "width":"100vw",
+          "minWidth":"100vw",
           "position":"absolute",
           "left":"0px",
           "top":"0px",
-          "background-color":"#777799"
+          "background-color":"#777799",
+          "overflow":"hidden"
       })
   
-      view.html(JSON.stringify(this.log));
       view.html(`
         <h1 style='color:#222222;width:100%;background-color:#9999bb;padding:1%;font-size:2.5em;font-family:Arial, Helvetica, sans-serif'>Test Report</h1>
         <h2 id='simpleTesterPassedHeader' class='simpleTesterh2' style='color:#22ff22;' >Passed: ${this.log['passed']} </h2>
@@ -94,6 +94,71 @@ class SimpleTester {
 
       $('.simpleTesterTest').on('mouseenter',(e)=>$(e.target).css('font-weight','bold'))
       $('.simpleTesterTest').on('mouseleave',(e)=>$(e.target).css('font-weight','normal'))
+      $('.simpleTesterTest').click((e)=>{
+
+        var params = this.log.testedTests[e.target.innerHTML.split(']')[1]]
+        var paramKeys = Object.keys(params[0])
+        var paramWindow = $(document.createElement('div'));
+        paramWindow.attr('class','paramWindowDiv')
+        paramWindow.css({
+          'position':'absolute',
+          'padding':'2em',
+          'top': String(window.innerHeight*.25) + 'px',
+          'left':String(window.innerWidth*.25) + 'px',
+          'height':'20em',
+          'width':'20em',
+          'zIndex':'2',
+          'backgroundColor':'white',
+          'overflow':'auto'
+        })
+
+        paramWindow.html(
+          `<table>
+              <tr class="paramWindowTr">${paramKeys.map((x)=>{return '<th class="paramWindowTh">'+x+'</th>'}).join('')}</tr>
+              ${params.map((x)=>{return `<tr class="paramWindowTr"> 
+                      ${paramKeys.map((y)=>{return `<td class='paramWindowTd'>${x[y]}</td>`}).join('')}
+              </tr>`}).join('\n')}
+            </table>
+          `
+        )
+    
+        var closeButt = $(document.createElement('div')).html('X');;
+
+        $(document.body).append(paramWindow);
+        paramWindow.append(closeButt)
+
+        closeButt.click((e)=>{
+          paramWindow.remove();
+        })
+        closeButt.css({
+          'backgroundColor':'red',
+          'fontWeight':'bold',
+          'position':'absolute',
+          'top':'0',
+          'right':'0'
+
+        })
+
+        $('.paramWindowDiv>table').css({
+          'fontFamily': 'arial, sans-serif',
+          'borderCollapse': 'collapse',
+          'textAlign':'center',
+          'margin':'auto',
+          'padding': '.5em',
+          'backgroundColor':'#fafafa'
+         }) 
+         $('.paramWindowTh').css({
+          'padding':'.5em',
+          'border':'1px solid black'
+         })
+         $('.paramWindowTd').css({
+          'padding':'.5em',
+          'border':'1px solid #999999'
+         })
+
+         $('.paramWindowTr:odd').css({'backgroundColor':'#dddddd'})
+
+      })
 
       $('.simpleTesterh2').css({
         textAlign: 'center',
@@ -105,7 +170,6 @@ class SimpleTester {
         fontSize:" 2em",
         marginLeft:" 5%",
         fontFamily: '"Arial Black", Gadget, sans-serif'
-
       })
       $('.simpleTesterDrawer').css( { 
       backgroundColor: 'rgb(153, 153, 187)',
@@ -116,9 +180,8 @@ class SimpleTester {
       padding: '2% 2% 2% 5%',
       fontSize: '1.75em',
       display:'none'
-    })
+      })
       
-
       $('#simpleTesterPassedHeader').click(()=>{$('#simpleTesterDrawer1').slideToggle(250)});
       $('#simpleTesterFailedHeader').click(()=>{$('#simpleTesterDrawer2').slideToggle(250)});
       $('#simpleTesterTestedHeader').click(()=>{$('#simpleTesterDrawer3').slideToggle(250)});

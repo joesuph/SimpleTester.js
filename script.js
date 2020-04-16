@@ -6,10 +6,10 @@ var globals = {};
 
 function loadFile(){}
 
-t.addTest('isEven',(p)=>{return p.x%2==0});
+t.addTest('addsEven',(p)=>{return (p.x+p.y)%2==0});
 t.addTest('isOdd',(p)=>{return p.x%2!=0});
-t.run('isEven',{x:4})
-t.run('isEven',{x:6})
+t.run('addsEven',{x:4,y:6})
+t.run('addsEven',{x:6,y:4})
 t.run('isOdd',{x:3})
 
 /*function loadFile() {
