@@ -13,12 +13,12 @@ class SimpleTester {
       this.log = this.defaultLog;
       this.timers = {};
     }
-    addTest(testName, func) {
-      this.tests[testName] = func;
+    addTest(testName, func, des="") {
+      this.tests[testName] = {test:testName,run:func,des:des};
     }
     run(testName, params) {
       if (!this.tests[testName]) return null;
-      var result = this.tests[testName](params);
+      var result = this.tests[testName].run(params);
       this.updateLog(testName, params, result);
       return result;
     }
@@ -96,7 +96,8 @@ class SimpleTester {
       $('.simpleTesterTest').on('mouseleave',(e)=>$(e.target).css('font-weight','normal'))
       $('.simpleTesterTest').click((e)=>{
 
-        var params = this.log.testedTests[e.target.innerHTML.split(']')[1]]
+        var testName = e.target.innerHTML.split(']')[1];
+        var params = this.log.testedTests[testName]
         var paramKeys = Object.keys(params[0])
         var paramWindow = $(document.createElement('div'));
         paramWindow.attr('class','paramWindowDiv')
@@ -113,7 +114,10 @@ class SimpleTester {
         })
 
         paramWindow.html(
-          `<table>
+          `
+          <h2>${testName}</h3>
+          <p>${this.tests[testName].des}</p>
+          <table>
               <tr class="paramWindowTr">${paramKeys.map((x)=>{return '<th class="paramWindowTh">'+x+'</th>'}).join('')}</tr>
               ${params.map((x)=>{return `<tr class="paramWindowTr"> 
                       ${paramKeys.map((y)=>{return `<td class='paramWindowTd'>${x[y]}</td>`}).join('')}
@@ -186,7 +190,6 @@ class SimpleTester {
       $('#simpleTesterFailedHeader').click(()=>{$('#simpleTesterDrawer2').slideToggle(250)});
       $('#simpleTesterTestedHeader').click(()=>{$('#simpleTesterDrawer3').slideToggle(250)});
     }
-    
 
     time(timerName)
     {

@@ -6,11 +6,11 @@ var globals = {};
 
 function loadFile(){}
 
-t.addTest('addsEven',(p)=>{return (p.x+p.y)%2==0});
-t.addTest('isOdd',(p)=>{return p.x%2!=0});
-t.run('addsEven',{x:4,y:6})
-t.run('addsEven',{x:6,y:4})
-t.run('isOdd',{x:3})
+t.addTest('isEven',(p)=>{
+    return p.x % 2==0;
+},des='Checks if X is even')
+
+t.run('isEven',{x:6});
 
 /*function loadFile() {
     img = $('img')[0];
@@ -79,10 +79,6 @@ function hcurve(points=[],start=[0,0],dx=null,dy=null)
 
 
     
-}
-function rotatePoints(points,angle)
-{
-
 }
 
 t.viewLog()
