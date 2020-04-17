@@ -1,3 +1,9 @@
+/**
+ * Todo:
+ *  -Add UI Tests
+ *  -Add UI Tests with screenshots to report
+ *  -Make Test report tables dragable and resizable
+ */
 class SimpleTester {
     constructor() {
       this.tests = {};
