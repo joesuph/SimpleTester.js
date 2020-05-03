@@ -26,3 +26,4 @@ tester.run('isEven',{x:6});
 tester.viewLog();
 
 ```
+> See wiki for more documentation
