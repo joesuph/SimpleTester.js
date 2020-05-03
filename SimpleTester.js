@@ -3,6 +3,9 @@
  *  -Add UI Tests
  *  -Add UI Tests with screenshots to report
  *  -Make Test report tables dragable and resizable
+ *  -Include Jquery In constructor
+ *  -Disable tests when Log Report is open
+ *  -Add config setting to tests
  */
 class SimpleTester {
     constructor() {
@@ -19,32 +22,35 @@ class SimpleTester {
       this.log = this.defaultLog;
       this.timers = {};
     }
-    addTest(testName, func, des="") {
-      this.tests[testName] = {test:testName,run:func,des:des};
+    addTest(testName, des=null,func=null) {
+      if (func==null){func=des;des="";}
+      this.tests[testName] = {test:testName,des:des,run:func};
     }
     run(testName, params) {
       if (!this.tests[testName]) return null;
+      var t0 = performance.now();
       var result = this.tests[testName].run(params);
-      this.updateLog(testName, params, result);
+      var t1 = performance.now();
+      this.updateLog(testName, params, result,t1-t0);
       return result;
     }
-    updateLog(testName, params, result) {
+    updateLog(testName, params, result, time) {
       this.log.tested += 1;
       if (result) {
         this.log.passed += 1;
         if (!this.log.passedTests[testName])
-          this.log.passedTests[testName] = [params];
-        else this.log.passedTests[testName].push(params);
+          this.log.passedTests[testName] = [{params,time}];
+        else this.log.passedTests[testName].push({params,time});
       } else {
         this.log.failed += 1;
         if (!this.log.failedTests[testName])
-          this.log.failedTests[testName] = [params];
-        else this.log.failedTests[testName].push(params);
+          this.log.failedTests[testName] = [{params,time}];
+        else this.log.failedTests[testName].push({params,time});
       }
       if(!this.log.testedTests[testName])
-        this.log.testedTests[testName] = [params];
+        this.log.testedTests[testName] = [{time,params}];
       else
-        this.log.testedTests[testName].push(params);
+        this.log.testedTests[testName].push({time,params});
     }
     clearLog() {
       this.log = this.defaultLog;
@@ -53,7 +59,7 @@ class SimpleTester {
     viewLog() {
       var view = $(document.createElement("div"));
     
-     view.attr('id', 'logWindow');
+      view.attr('id', 'logWindow');
       view.css({
           "minHeight":"100vh",
           "minWidth":"100vw",
@@ -103,8 +109,9 @@ class SimpleTester {
       $('.simpleTesterTest').click((e)=>{
 
         var testName = e.target.innerHTML.split(']')[1];
-        var params = this.log.testedTests[testName]
-        var paramKeys = Object.keys(params[0])
+        var testData = this.log.testedTests[testName];
+        var time = this.log.testedTests[testName].time
+        var paramKeys = Object.keys(testData[0].params)
         var paramWindow = $(document.createElement('div'));
         paramWindow.attr('class','paramWindowDiv')
         paramWindow.css({
@@ -124,15 +131,15 @@ class SimpleTester {
           <h2>${testName}</h3>
           <p>${this.tests[testName].des}</p>
           <table>
-              <tr class="paramWindowTr">${paramKeys.map((x)=>{return '<th class="paramWindowTh">'+x+'</th>'}).join('')}</tr>
-              ${params.map((x)=>{return `<tr class="paramWindowTr"> 
-                      ${paramKeys.map((y)=>{return `<td class='paramWindowTd'>${x[y]}</td>`}).join('')}
+              <tr class="paramWindowTr">${paramKeys.map((x)=>{return '<th class="paramWindowTh">'+x+'</th>'}).join('') + '<th class="paramWindowTh">&#128337</th>'}</tr>
+              ${testData.map((x)=>{return `<tr class="paramWindowTr"> 
+                      ${paramKeys.map((y)=>{return `<td class='paramWindowTd'>${x.params[y]}</td>`}).join('')} <td>${x.time}ms</td>
               </tr>`}).join('\n')}
             </table>
           `
         )
     
-        var closeButt = $(document.createElement('div')).html('X');;
+        var closeButt = $(document.createElement('div')).html('X');
 
         $(document.body).append(paramWindow);
         paramWindow.append(closeButt)
@@ -145,7 +152,7 @@ class SimpleTester {
           'fontWeight':'bold',
           'position':'absolute',
           'top':'0',
-          'right':'0'
+          'left':'0'
 
         })
 
