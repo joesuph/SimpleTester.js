@@ -6,6 +6,8 @@ t.addTest('isEven','Checks if X is even',(p)=>{
 });
 
 t.run('isEven',{x:6});
+t.run('isEven',{x:7});
+t.run('isEven',{x:8});
 
 t.viewLog()`)
 
