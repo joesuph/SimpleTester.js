@@ -2,6 +2,7 @@
 
 ## About
 A class allows for easy test-driven development in the browser
+Try [here](https://joesuph.github.io/SimpleTester.js/).
 
 Recommended Workflow:
 1. Create an instance of SimpleTester with the desired config arguments
