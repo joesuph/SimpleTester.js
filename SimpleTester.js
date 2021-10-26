@@ -102,19 +102,19 @@ class SimpleTester {
         <h2 id='simpleTesterPassedHeader' class='simpleTesterh2' style='color:#22ff22;cursor:pointer' >Passed: ${this.log['passed']} </h2>
         <div id='simpleTesterDrawer1' class ='simpleTesterDrawer'>
         `+  Object.keys(t.log.passedTests).map((x)=>{
-          return "<span title='See Parameters' class='simpleTesterTest'>["+ t.log.passedTests[x].length +"]" + x + "</span><br>"
+          return "<span title='See Parameters' class='simpleTesterTest'>["+ t.log.passedTests[x].length +"] " + x + "</span>"
           }).join("\n")      +`
         </div>
         <h2 id='simpleTesterFailedHeader' class='simpleTesterh2' style='color:#cc0000;cursor:pointer' >Failed: ${this.log['failed']} </h2>
         <div id='simpleTesterDrawer2' class ='simpleTesterDrawer'>
         `+  Object.keys(t.log.failedTests).map((x)=>{
-          return "<span title='See Parameters' class='simpleTesterTest'>["+ t.log.failedTests[x].length +"]" + x + "</span><br>"
+          return "<span title='See Parameters' class='simpleTesterTest'>["+ t.log.failedTests[x].length +"] " + x + "</span>"
           }).join("\n")      +`
         </div>
         <h2 id='simpleTesterTestedHeader' class='simpleTesterh2' style='color:white;cursor:pointer' >Tested: ${this.log['tested']} </h2>
         <div id='simpleTesterDrawer3' class ='simpleTesterDrawer'>
         `+  Object.keys(t.log.testedTests).map((x)=>{
-          return "<span title='See Parameters' class='simpleTesterTest'>["+ t.log.testedTests[x].length +"]" + x + "</span><br>"
+          return "<span title='See Parameters' class='simpleTesterTest'>["+ t.log.testedTests[x].length +"] " + x + "</span>"
           }).join("\n")      +`
         </div>
         <hr style='width:90%'/>
@@ -130,7 +130,7 @@ class SimpleTester {
       view.append(butt);
       $(document.body).append(view);
 
-      $('.simpleTesterTest').css({'cursor':'pointer','border':'1px solid grey','border-radius':'1em','padding':'.2em'})
+      $('.simpleTesterTest').css({'display':'inline-block','margin':'.1em','cursor':'pointer','border':'1px solid grey','border-radius':'1em','padding':'.2em'})
       $('.simpleTesterTest').on('mouseenter',(e)=>$(e.target).css('background-color','#aaaacc'))
       $('.simpleTesterTest').on('mouseleave',(e)=>$(e.target).css('background-color','#9999bb'))
       $('.simpleTesterTest').click((e)=>{
