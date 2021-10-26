@@ -22,10 +22,22 @@ class SimpleTester {
       this.log = this.defaultLog;
       this.timers = {};
     }
+    /**
+     * Creates a test 
+     * @param {string} testName Name of test.
+     * @param {string} des Description of text.
+     * @param {function} func Function takes single obj returns bool.
+     */
     addTest(testName, des=null,func=null) {
       if (func==null){func=des;des="";}
       this.tests[testName] = {test:testName,des:des,run:func};
     }
+
+    /**
+     * Runs a premade test
+     * @param {string} testName name of the test to be ran.
+     * @param {object} params an object contain the required variables as member variables. 
+     */
     run(testName, params) {
       if (!this.tests[testName]) return null;
       var t0 = performance.now();
@@ -34,6 +46,14 @@ class SimpleTester {
       this.updateLog(testName, params, result,t1-t0);
       return result;
     }
+
+    /**
+     * This will update the Test Report with results of caller test
+     * @param {string} testName Name of the test.
+     * @param {Object} params Object containing the params being used.
+     * @param {boolean} result Boolean set to whether the ran test was a success.
+     * @param {*} time time for the test to run.
+     */
     updateLog(testName, params, result, time) {
       this.log.tested += 1;
       if (result) {
@@ -52,10 +72,17 @@ class SimpleTester {
       else
         this.log.testedTests[testName].push({time,params});
     }
+
+    /**
+     * Clears the log
+     */
     clearLog() {
       this.log = this.defaultLog;
     }
 
+    /**
+     * Opens window of view report
+     */
     viewLog() {
       var view = $(document.createElement("div"));
     
@@ -72,19 +99,19 @@ class SimpleTester {
   
       view.html(`
         <h1 style='color:#222222;width:100%;background-color:#9999bb;padding:1%;font-size:2.5em;font-family:Arial, Helvetica, sans-serif'>Test Report</h1>
-        <h2 id='simpleTesterPassedHeader' class='simpleTesterh2' style='color:#22ff22;' >Passed: ${this.log['passed']} </h2>
+        <h2 id='simpleTesterPassedHeader' class='simpleTesterh2' style='color:#22ff22;cursor:pointer' >Passed: ${this.log['passed']} </h2>
         <div id='simpleTesterDrawer1' class ='simpleTesterDrawer'>
         `+  Object.keys(t.log.passedTests).map((x)=>{
           return "<span title='See Parameters' class='simpleTesterTest'>["+ t.log.passedTests[x].length +"]" + x + "</span><br>"
           }).join("\n")      +`
         </div>
-        <h2 id='simpleTesterFailedHeader' class='simpleTesterh2' style='color:#cc0000;' >Failed: ${this.log['failed']} </h2>
+        <h2 id='simpleTesterFailedHeader' class='simpleTesterh2' style='color:#cc0000;cursor:pointer' >Failed: ${this.log['failed']} </h2>
         <div id='simpleTesterDrawer2' class ='simpleTesterDrawer'>
         `+  Object.keys(t.log.failedTests).map((x)=>{
           return "<span title='See Parameters' class='simpleTesterTest'>["+ t.log.failedTests[x].length +"]" + x + "</span><br>"
           }).join("\n")      +`
         </div>
-        <h2 id='simpleTesterTestedHeader' class='simpleTesterh2' style='color:white' >Tested: ${this.log['tested']} </h2>
+        <h2 id='simpleTesterTestedHeader' class='simpleTesterh2' style='color:white;cursor:pointer' >Tested: ${this.log['tested']} </h2>
         <div id='simpleTesterDrawer3' class ='simpleTesterDrawer'>
         `+  Object.keys(t.log.testedTests).map((x)=>{
           return "<span title='See Parameters' class='simpleTesterTest'>["+ t.log.testedTests[x].length +"]" + x + "</span><br>"
@@ -93,8 +120,7 @@ class SimpleTester {
         <hr style='width:90%'/>
         `);
 
-
-
+        
       var butt = $(document.createElement("button"));
       butt.css("margin-bottom","1.5em")
       butt.text("Close Window");
@@ -104,8 +130,9 @@ class SimpleTester {
       view.append(butt);
       $(document.body).append(view);
 
-      $('.simpleTesterTest').on('mouseenter',(e)=>$(e.target).css('font-weight','bold'))
-      $('.simpleTesterTest').on('mouseleave',(e)=>$(e.target).css('font-weight','normal'))
+      $('.simpleTesterTest').css({'cursor':'pointer','border':'1px solid grey','border-radius':'1em','padding':'.2em'})
+      $('.simpleTesterTest').on('mouseenter',(e)=>$(e.target).css('background-color','#aaaacc'))
+      $('.simpleTesterTest').on('mouseleave',(e)=>$(e.target).css('background-color','#9999bb'))
       $('.simpleTesterTest').click((e)=>{
 
         var testName = e.target.innerHTML.split(']')[1];
