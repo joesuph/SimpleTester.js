@@ -215,6 +215,12 @@ class SimpleTester {
         marginLeft:" 5%",
         fontFamily: '"Arial Black", Gadget, sans-serif'
       })
+      $('.simpleTesterh2').mouseenter(function() {
+        $(this).css("border","1px solid white")
+      });
+      $('.simpleTesterh2').mouseleave(function() {
+        $(this).css("border-style","none")
+      });
       $('.simpleTesterDrawer').css( { 
       backgroundColor: 'rgb(153, 153, 187)',
       color: 'rgb(34, 34, 34)',

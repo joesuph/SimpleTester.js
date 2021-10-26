@@ -11,6 +11,8 @@ t.run('isEven',{x:8});
 
 t.viewLog()`)
 
+$('#ta').css({'background-color':'black','color':'rgb(82, 209, 82)','height':'25em','width':'40em','padding':'1em','border-radius':'1em'})
+
 $('#run').click(()=>{
     run()
 })
