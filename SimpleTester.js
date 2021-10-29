@@ -135,7 +135,7 @@ class SimpleTester {
       $('.simpleTesterTest').on('mouseleave',(e)=>$(e.target).css('background-color','#9999bb'))
       $('.simpleTesterTest').click((e)=>{
 
-        var testName = e.target.innerHTML.split(']')[1];
+        var testName = e.target.innerHTML.split('] ')[1];
         var testData = this.log.testedTests[testName];
         var time = this.log.testedTests[testName].time
         var paramKeys = Object.keys(testData[0].params)
